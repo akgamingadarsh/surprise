@@ -129,6 +129,24 @@
     .popup-btn:hover::before { opacity:1; }
     .popup-btn:active { transform:translateY(0); }
 
+    /* OUR STORY BUTTON */
+    .story-btn {
+      background: var(--white);
+      border: 1.8px solid var(--rose);
+      border-radius: 50px; padding: 0.75rem 2rem;
+      font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--rose-deep); cursor: pointer;
+      box-shadow: 0 4px 16px rgba(232,160,176,0.25);
+      transition: all 0.3s; letter-spacing: 0.03em;
+      margin-top: 0.9rem;
+      animation: fadeUp 0.9s 0.65s ease both;
+    }
+    .story-btn:hover {
+      background: var(--blush); transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232,160,176,0.4);
+    }
+    .story-btn:active { transform: translateY(0); }
+
     /* MODAL */
     .modal-overlay {
       position:fixed; inset:0; background:rgba(90,62,68,0.25);
@@ -252,6 +270,94 @@
       .time-num { font-size:1.8rem; }
       .time-unit:not(:last-child) .time-num::after { right:-0.45rem; font-size:1.1rem; }
     }
+
+    /* ── STORY MODAL ── */
+    .story-overlay {
+      position: fixed; inset: 0; background: rgba(90,62,68,0.22);
+      backdrop-filter: blur(8px); z-index: 110;
+      display: flex; align-items: center; justify-content: center; padding: 1.2rem;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s;
+    }
+    .story-overlay.open { opacity: 1; pointer-events: all; }
+
+    .story-modal {
+      background: var(--white); border-radius: 28px;
+      padding: 2.2rem 1.8rem 2rem;
+      max-width: 390px; width: 100%;
+      box-shadow: 0 24px 70px rgba(232,160,176,0.38);
+      transform: scale(0.88) translateY(20px);
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative; border: 1px solid rgba(247,197,208,0.5);
+      max-height: 88vh; overflow-y: auto;
+    }
+    .story-overlay.open .story-modal { transform: scale(1) translateY(0); }
+
+    .story-modal::-webkit-scrollbar { width: 4px; }
+    .story-modal::-webkit-scrollbar-track { background: transparent; }
+    .story-modal::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 10px; }
+
+    .story-close {
+      position: sticky; top: 0; float: right;
+      background: var(--blush); border: none; border-radius: 50%;
+      width: 30px; height: 30px; cursor: pointer; font-size: 0.82rem;
+      color: var(--text-soft); display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; z-index: 5; margin-bottom: 0.5rem;
+    }
+    .story-close:hover { background: var(--rose); color: var(--white); }
+
+    .story-title {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem;
+      font-weight: 600; color: var(--text); text-align: center;
+      margin-bottom: 0.4rem; clear: both;
+    }
+    .story-sub {
+      text-align: center; font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--rose-deep); font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 2.2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0.62rem; top: 0; bottom: 0; width: 1.5px;
+      background: linear-gradient(to bottom, var(--rose) 0%, rgba(247,197,208,0.15) 100%);
+    }
+
+    .tl-item {
+      position: relative; margin-bottom: 2rem;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .tl-item.visible { opacity: 1; transform: translateY(0); }
+    .tl-item:last-child { margin-bottom: 0; }
+
+    .tl-dot {
+      position: absolute; left: -2.2rem;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--rose);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 10px rgba(232,160,176,0.35);
+      top: 0.1rem;
+    }
+
+    .tl-date {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--rose-deep); margin-bottom: 0.35rem;
+    }
+
+    .tl-text {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.97rem; line-height: 1.6; color: var(--text);
+    }
+
+    .story-ending {
+      text-align: center; margin-top: 2rem; padding-top: 1.4rem;
+      border-top: 1px solid rgba(247,197,208,0.4);
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.84rem; color: var(--text-soft); line-height: 1.7;
+    }
+    .story-ending span { color: var(--rose-deep); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -320,6 +426,7 @@
   </p>
 
   <button class="popup-btn" onclick="openModal()">A message for you 💌</button>
+  <button class="story-btn" onclick="openStory()">Our Story 🤍</button>
   <p class="footer">made with 🤍 for my ❤️</p>
 </div>
 
@@ -334,6 +441,48 @@
       <p>I promise to keep choosing you,<br>every single day.</p>
     </div>
     <div class="modal-footer">Happy Birthday in advance, my queen 🤍</div>
+  </div>
+</div>
+
+<!-- STORY / MEMORIES MODAL -->
+<div class="story-overlay" id="storyOverlay" onclick="closeStoryOutside(event)">
+  <div class="story-modal" id="storyModal">
+    <button class="story-close" onclick="closeStory()">✕</button>
+    <div class="story-title">Our Little Story 🤍</div>
+    <div class="story-sub">✦ moments I hold close ✦</div>
+
+    <div class="timeline">
+
+      <div class="tl-item" data-delay="0">
+        <div class="tl-dot">💬</div>
+        <div class="tl-date">11 May 2024</div>
+        <div class="tl-text">"Just a normal conversation… that changed everything."</div>
+      </div>
+
+      <div class="tl-item" data-delay="120">
+        <div class="tl-dot">💫</div>
+        <div class="tl-date">10 December 2025</div>
+        <div class="tl-text">"From talking… to feeling something real."</div>
+      </div>
+
+      <div class="tl-item" data-delay="240">
+        <div class="tl-dot">🌿</div>
+        <div class="tl-date">14 March 2026</div>
+        <div class="tl-text">"Walks, laughs, and a day that felt so right."</div>
+      </div>
+
+      <div class="tl-item" data-delay="360">
+        <div class="tl-dot">❤️</div>
+        <div class="tl-date">26 March 2026</div>
+        <div class="tl-text">"A moment I'll never forget… us, finally."</div>
+      </div>
+
+    </div>
+
+    <div class="story-ending">
+      Still writing our story…<br>
+      <span>— Arsh 🤍</span>
+    </div>
   </div>
 </div>
 
@@ -450,6 +599,26 @@ function togglePlayer(){
   player.classList.toggle('visible',playerOpen);
   toggleLabel.textContent=playerOpen?'Hide':'Music';
   if(playerOpen && audio.paused){ audio.play().catch(()=>{}); }
+}
+
+/* STORY MODAL */
+function openStory() {
+  const overlay = document.getElementById('storyOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Stagger-animate each timeline item
+  document.querySelectorAll('.tl-item').forEach(item => {
+    item.classList.remove('visible');
+    const delay = parseInt(item.dataset.delay || 0);
+    setTimeout(() => item.classList.add('visible'), 120 + delay);
+  });
+}
+function closeStory() {
+  document.getElementById('storyOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeStoryOutside(e) {
+  if (e.target === document.getElementById('storyOverlay')) closeStory();
 }
 </script>
 </body>
